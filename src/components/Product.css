@@ -1,0 +1,32 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  .productsContainer {
+    position: relative;
+    left: 400px;
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: space-between; */ 
+  }
+  
+  .products {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+    margin: 0 0 1em 0;
+    padding: 0em;
+  }
+  
+  .products img {
+    margin: 0.5em 0;
+    border-radius: 50%;
+    height: 350px;
+    width: 350px;
+  }
+  
+  .box{
+    width:75%;
+    background-color: white;
+  }
