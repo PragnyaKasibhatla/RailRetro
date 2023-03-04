@@ -70,14 +70,38 @@ class Register extends Component {
   }
 
   handleSubmit = (e) => {
-    var apiBaseUrl = "http://localhost:8000/api/authentication/";
+    var apiBaseUrl = "http://127.0.0.1:8000/api/authentication/registration/";
     var self = this;
     var payload = {
+      name: this.state.email,
+      phone: 6666,
       email: this.state.email,
       password: this.state.password,
       role: this.state.UserType,
+      address: "Bangalore",
+      city: "BLR",
+      pincode: 560068,
+      rating: 5,
     };
-    let emailToMatch = this.state.email;
+
+    const registerOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    };
+
+    fetch(apiBaseUrl, registerOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        // Handle success
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        // Handle error
+      });
+
+    /*     let emailToMatch = this.state.email;
     function matchFound(user) {
       return emailToMatch === user.email;
     }
@@ -92,7 +116,7 @@ class Register extends Component {
       alert("Registration Successful");
     } else {
       alert("User Already Exist");
-    }
+    } */
 
     e.preventDefault();
   };
@@ -127,25 +151,34 @@ class Register extends Component {
 
             <div>
               <input
-              className="radio"
+                className="radio"
                 type="radio"
                 value="customer"
                 checked={this.state.UserType === "customer"}
                 onChange={this.onValueChange}
-                style={{left:"800px"}}
+                style={{ left: "800px" }}
               />
               <input
-              className="radio"
+                className="radio"
                 type="radio"
                 value="restaurant"
                 checked={this.state.UserType === "restaurant"}
                 onChange={this.onValueChange}
-                style={{left:"600px"}}
+                style={{ left: "600px" }}
               />
-             
             </div>
-            <label style={{position:"relative", left:"910px"}} htmlFor="Customer">Customer</label>
-            <label style={{position:"relative", left:"950px"}} htmlFor="Restaurant">Restaurant</label>
+            <label
+              style={{ position: "relative", left: "910px" }}
+              htmlFor="Customer"
+            >
+              Customer
+            </label>
+            <label
+              style={{ position: "relative", left: "950px" }}
+              htmlFor="Restaurant"
+            >
+              Restaurant
+            </label>
             <input
               type="submit"
               value="Register"
