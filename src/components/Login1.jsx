@@ -78,10 +78,39 @@ class Login extends Component {
     e.preventDefault();
   };
   handleSubmit = (e) => {
-    //const { navigate } = useLocation();
-    //const navigate = useNavigate();
-    //var apiBaseUrl = "http://localhost:8000/api/authentication/";
-    console.log(this.props);
+    var apiBaseUrl = "http://127.0.0.1:8000/api/authentication/login/";
+    var self = this;
+    var payload = {
+      email: this.state.email,
+      password: this.state.password,
+      role: this.state.UserType,
+    };
+
+    const loginOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    };
+    let userRoleToMatch = this.state.UserType;
+    fetch(apiBaseUrl, loginOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        if (userRoleToMatch === "customer") {
+          alert("Success - Customer");
+          this.props.history.push("/CustomerDashboard");
+          this.setState({ loggedIn: true });
+        } else {
+          alert("Success - Restaurent");
+          this.props.history.push("/RestoDashboard");
+          this.setState({ loggedIn: true });
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        // Handle error
+      });
+
+    /*     console.log(this.props);
     console.log(this.state);
     const { history } = this.props;
     var self = this;
@@ -121,7 +150,7 @@ class Login extends Component {
       }
     } else {
       alert("User Does Not Exist");
-    }
+    } */
     e.preventDefault();
   };
 
@@ -129,7 +158,7 @@ class Login extends Component {
     return (
       <div>
         <fieldset>
-          <form  onSubmit={this.handleSubmit}>
+          <form onSubmit={this.handleSubmit}>
             <label className="loginLabel">Login</label>
 
             <div>
@@ -160,20 +189,29 @@ class Login extends Component {
                 value="customer"
                 checked={this.state.UserType === "customer"}
                 onChange={this.onValueChange}
-                style={{left:"800px"}}
+                style={{ left: "800px" }}
               />
-              <input 
+              <input
                 className="radio"
                 type="radio"
                 value="restaurant"
                 checked={this.state.UserType === "restaurant"}
                 onChange={this.onValueChange}
-                style={{left:"600px"}}
-                
+                style={{ left: "600px" }}
               />
               <br></br>
-              <label style={{position:"relative", left:"910px"}} htmlFor="Customer">Customer</label>
-              <label style={{position:"relative", left:"950px"}} htmlFor="Restaurant">Restaurant</label>
+              <label
+                style={{ position: "relative", left: "910px" }}
+                htmlFor="Customer"
+              >
+                Customer
+              </label>
+              <label
+                style={{ position: "relative", left: "950px" }}
+                htmlFor="Restaurant"
+              >
+                Restaurant
+              </label>
             </div>
             <input
               type="submit"
@@ -184,7 +222,7 @@ class Login extends Component {
             <div className="error-message"></div>
           </form>
 
-          <div style={{position:"relative", left:"980px"}}>
+          <div style={{ position: "relative", left: "980px" }}>
             <Link to="/Register">Register</Link>
           </div>
         </fieldset>
